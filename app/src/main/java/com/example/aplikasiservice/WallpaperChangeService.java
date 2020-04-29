@@ -19,8 +19,8 @@ public class WallpaperChangeService extends Service implements Runnable{
     private int FLAG=0;
     private Thread t;
     /*Deklarasi 2 buah variabel bitmap untuk menyimpan gambar wallpaper */
-    private Bitmap gambar;
     private Bitmap gambar1;
+    private Bitmap gambar2;
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -28,7 +28,7 @@ public class WallpaperChangeService extends Service implements Runnable{
         return null;
     }
     //@Override
-    public int onStartComman(Intent intent, int flag, int startID)
+    public int onStartCommand(Intent intent, int flag, int startID)
     {
         super.onStartCommand(intent, flag, startID);
         /*Peroleh bundle yang dikirim melalui intent dan MainActivity */
@@ -36,8 +36,8 @@ public class WallpaperChangeService extends Service implements Runnable{
         /*Baca nilai yang tersimpan dengan kunci 'durasi' */
         waktu = bundle.getInt("durasi");
         /*Inisialisasi obyek Bitmap dengan gambar wallpaper */
-        gambar=BitmapFactory.decodeResource(getResources(), wallpaperId[0]);
-        gambar1=BitmapFactory.decodeResource(getResources(), wallpaperId[1]);
+        gambar1=BitmapFactory.decodeResource(getResources(), wallpaperId[0]);
+        gambar2=BitmapFactory.decodeResource(getResources(), wallpaperId[1]);
         /*Memulai sebuah thread agar service tetap berjalan di latar belakang */
         t = new Thread(WallpaperChangeService.this);
         t.start();
@@ -57,11 +57,11 @@ public class WallpaperChangeService extends Service implements Runnable{
         try {
             while(true) {
                 if(FLAG==0) {
-                    myWallpaper.setBitmap(gambar);
+                    myWallpaper.setBitmap(gambar1);
                     FLAG++;
                 }
                 else {
-                    myWallpaper.setBitmap(gambar1);
+                    myWallpaper.setBitmap(gambar2);
                     FLAG--;
                 }
                 Thread.sleep(100*waktu);
